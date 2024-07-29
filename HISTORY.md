@@ -2,6 +2,13 @@
 
 ## Unreleased / main
 
+## v1.2.0 (29/07/2024)
+
+Create new tables:
+
+- SSXProcessingResult
+- SSXProcessingResultAttachment
+
 ## v1.1.0 (17/01/2023)
 
 Create new tables:
