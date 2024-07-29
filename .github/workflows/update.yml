@@ -21,7 +21,7 @@ jobs:
               name: Get latest release
               uses: pozetroninc/github-action-get-latest-release@master
               with:
-                  repository: ispyb/ispyb-database
+                  repository: hormiai76/ispyb-database
             - uses: actions/checkout@v3
             - name: Check if update required
               run: |
