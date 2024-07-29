@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
         id-token: write
+    environment: hormiai76
     steps:
       - uses: actions/checkout@master
       - name: Set up Python 3.10
