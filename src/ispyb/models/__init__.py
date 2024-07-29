@@ -30,7 +30,7 @@ from ._auto_db_schema import (
     EventChain,
 )
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 DataCollection.GridInfo = relationship(
     "GridInfo", secondary="DataCollectionGroup", back_populates="DataCollection"
