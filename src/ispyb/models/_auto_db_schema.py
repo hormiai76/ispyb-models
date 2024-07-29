@@ -3956,8 +3956,8 @@ class Component(Base):
 class LabContact(Base):
     __tablename__ = "LabContact"
     __table_args__ = (
-        Index("cardNameAndProposal", "cardName", "proposalId", unique=True),
         Index("personAndProposal", "personId", "proposalId", unique=True),
+        Index("cardNameAndProposal", "cardName", "proposalId", unique=True),
     )
 
     labContactId = Column(INTEGER(10), primary_key=True)
@@ -6361,6 +6361,34 @@ class SSXDataCollection(Base):
     DataCollection = relationship("DataCollection", uselist=False)
 
 
+class SSXProcessingResult(Base):
+    __tablename__ = "SSXProcessingResult"
+    __table_args__ = {"comment": "Processing Results table for SSX experiments."}
+
+    ssxProcessingResultId = Column(INTEGER(11), primary_key=True, comment="Primary key")
+    dataCollectionId = Column(
+        ForeignKey(
+            "DataCollection.dataCollectionId", ondelete="CASCADE", onupdate="CASCADE"
+        ),
+        index=True,
+    )
+    hitRate = Column(Float)
+    indexingRate = Column(Float)
+    indexingType = Column(Enum("Preliminary", "Final"))
+    status = Column(Enum("Running", "Failed", "Success"))
+    createdTimeStamp = Column(
+        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+    )
+    lastUpdate = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("'0000-00-00 00:00:00'"),
+        comment="last update timestamp",
+    )
+
+    DataCollection = relationship("DataCollection")
+
+
 class XRFFluorescenceMapping(Base):
     __tablename__ = "XRFFluorescenceMapping"
 
@@ -6585,6 +6613,39 @@ class PDBEntry(Base):
     authorMatch = Column(TINYINT(1))
 
     AutoProcProgram = relationship("AutoProcProgram")
+
+
+class SSXProcessingResultAttachment(Base):
+    __tablename__ = "SSXProcessingResultAttachment"
+    __table_args__ = {
+        "comment": "Processing Results attachments table for SSX experiments."
+    }
+
+    ssxProcessingResultAttachmentId = Column(
+        INTEGER(11), primary_key=True, comment="Primary key"
+    )
+    ssxProcessingResultId = Column(
+        ForeignKey(
+            "SSXProcessingResult.ssxProcessingResultId",
+            ondelete="CASCADE",
+            onupdate="CASCADE",
+        ),
+        index=True,
+    )
+    fileName = Column(String(255), nullable=False)
+    filePath = Column(String(255), nullable=False)
+    fileType = Column(Enum("Result", "Log", "Graph"), nullable=False)
+    createdTimeStamp = Column(
+        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+    )
+    lastUpdate = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("'0000-00-00 00:00:00'"),
+        comment="last update timestamp",
+    )
+
+    SSXProcessingResult = relationship("SSXProcessingResult")
 
 
 class WorkflowMesh(Base):
