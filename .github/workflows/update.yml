@@ -50,7 +50,7 @@ jobs:
                   password=password
                   database=ispyb_build
                   EOF
-                  wget https://github.com/hormiai76/ispyb-database/archive/refs/tags/v${SCHEMA_VERSION}.tar.gz
+                  wget https://github.com/ispyb/ispyb-database/archive/refs/tags/v${SCHEMA_VERSION}.tar.gz
                   tar xfz v${SCHEMA_VERSION}.tar.gz
                   ls
                   cd ispyb-database-${SCHEMA_VERSION}
