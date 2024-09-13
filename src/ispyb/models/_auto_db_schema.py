@@ -6385,6 +6385,7 @@ class SSXProcessingResult(Base):
         server_default=text("'0000-00-00 00:00:00'"),
         comment="last update timestamp",
     )
+    comments = Column(String(100))
 
     DataCollection = relationship("DataCollection")
 
