@@ -11,6 +11,9 @@ jobs:
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
+    permissions:
+        id-token: write
+    environment: hormiai76
     steps:
       - uses: actions/checkout@master
       - name: Set up Python 3.10
