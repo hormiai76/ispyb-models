@@ -2,6 +2,20 @@
 
 ## Unreleased / main
 
+
+## v1.2.2 (08/11/2024)
+
+Add LineScan to DataCollectionGroup.experimentType
+
+
+## v1.2.2 (13/09/2024)
+
+Create new tables
+
+-   SSXProcessingResult
+-   SSXProcessingResultAttachment
+
+
 ## v1.1.0 (17/01/2023)
 
 Create new tables:
