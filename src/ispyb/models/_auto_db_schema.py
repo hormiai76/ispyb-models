@@ -1350,7 +1350,6 @@ t_v_datacollection_summary = Table(
             "SSX-Jet",
             "LineScan",
         ),
-
     ),
     Column("DataCollectionGroup_startTime", DateTime),
     Column("DataCollectionGroup_endTime", DateTime),
