@@ -1348,6 +1348,7 @@ t_v_datacollection_summary = Table(
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
         ),
     ),
     Column("DataCollectionGroup_startTime", DateTime),
@@ -1693,6 +1694,7 @@ t_v_datacollection_summary_datacollectiongroup = Table(
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
         ),
     ),
     Column("DataCollectionGroup_startTime", DateTime),
@@ -5319,6 +5321,7 @@ class DataCollectionGroup(Base):
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
         )
     )
     startTime = Column(DateTime, comment="Start time of the dataCollectionGroup")
