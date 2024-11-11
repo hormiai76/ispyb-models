@@ -149,7 +149,7 @@ class BeamLineSetup(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -185,7 +185,7 @@ class CTF(Base):
     estimatedBfactor = Column(String(45))
     logFilePath = Column(String(512))
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
 
@@ -206,7 +206,7 @@ class ComponentSubType(Base):
 
     componentSubTypeId = Column(INTEGER(10), primary_key=True)
     name = Column(String(31), nullable=False)
-    hasPh = Column(TINYINT(1), server_default=text("0"))
+    hasPh = Column(TINYINT(1), server_default=text("'0'"))
 
 
 class ComponentType(Base):
@@ -264,7 +264,7 @@ class DatamatrixInSampleChanger(Base):
 
     datamatrixInSampleChangerId = Column(INTEGER(10), primary_key=True)
     proposalId = Column(
-        INTEGER(10), nullable=False, index=True, server_default=text("0")
+        INTEGER(10), nullable=False, index=True, server_default=text("'0'")
     )
     beamLineName = Column(String(45))
     datamatrixCode = Column(String(45))
@@ -384,9 +384,9 @@ class DiffractionPlan(Base):
     aimedIOverSigmaAtHighestRes = Column(Float(asdecimal=True))
     aimedMultiplicity = Column(Float(asdecimal=True))
     aimedResolution = Column(Float(asdecimal=True))
-    anomalousData = Column(TINYINT(1), server_default=text("0"))
+    anomalousData = Column(TINYINT(1), server_default=text("'0'"))
     complexity = Column(String(45))
-    estimateRadiationDamage = Column(TINYINT(1), server_default=text("0"))
+    estimateRadiationDamage = Column(TINYINT(1), server_default=text("'0'"))
     forcedSpaceGroup = Column(String(45))
     requiredCompleteness = Column(Float(asdecimal=True))
     requiredMultiplicity = Column(Float(asdecimal=True))
@@ -406,7 +406,7 @@ class DiffractionPlan(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     diffractionPlanUUID = Column(String(1000))
@@ -468,7 +468,7 @@ class Frame(Base):
     filePath = Column(String(255), index=True)
     comments = Column(String(45))
     creationDate = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     frameSetId = Column(INTEGER(10))
 
@@ -547,7 +547,7 @@ class IspybAutoProcAttachment(Base):
     fileCategory = Column(
         Enum("input", "output", "log", "correction"), server_default=text("'output'")
     )
-    hasGraph = Column(TINYINT(1), nullable=False, server_default=text("0"))
+    hasGraph = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
 
 
 class IspybCrystalClass(Base):
@@ -599,7 +599,7 @@ class Laboratory(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     laboratoryExtPk = Column(INTEGER(11))
@@ -680,7 +680,7 @@ class MotorPosition(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -737,7 +737,7 @@ class PhasingProgramRun(Base):
     phasingDirectory = Column(String(255), comment="Directory of execution")
     recordTimeStamp = Column(
         TIMESTAMP,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -852,7 +852,7 @@ class SchemaStatus(Base):
     scriptName = Column(String(100), nullable=False, unique=True)
     schemaStatus = Column(String(10))
     recordTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
 
@@ -912,7 +912,7 @@ t_V_AnalysisInfo = Table(
     Column("lastPointUsed", String(45)),
     Column("I0", String(45)),
     Column("isagregated", String(45)),
-    Column("subtractionId", INTEGER(11)),
+    Column("subtractionId", BIGINT(11)),
     Column("rgGnom", String(45)),
     Column("total", String(45)),
     Column("dmax", String(45)),
@@ -920,30 +920,30 @@ t_V_AnalysisInfo = Table(
     Column("i0stdev", String(45)),
     Column("quality", String(45)),
     Column("substractionCreationTime", DateTime),
-    Column("bufferBeforeMeasurementId", INTEGER(11)),
-    Column("bufferAfterMeasurementId", INTEGER(11)),
+    Column("bufferBeforeMeasurementId", BIGINT(11)),
+    Column("bufferAfterMeasurementId", BIGINT(11)),
     Column("bufferBeforeFramesMerged", String(45)),
-    Column("bufferBeforeMergeId", INTEGER(11)),
+    Column("bufferBeforeMergeId", BIGINT(11)),
     Column("bufferBeforeAverageFilePath", String(255)),
-    Column("sampleMeasurementId", INTEGER(11)),
-    Column("sampleMergeId", INTEGER(11)),
+    Column("sampleMeasurementId", BIGINT(11)),
+    Column("sampleMergeId", BIGINT(11)),
     Column("averageFilePath", String(255)),
     Column("framesMerge", String(45)),
     Column("framesCount", String(45)),
     Column("bufferAfterFramesMerged", String(45)),
-    Column("bufferAfterMergeId", INTEGER(11)),
+    Column("bufferAfterMergeId", BIGINT(11)),
     Column("bufferAfterAverageFilePath", String(255)),
-    Column("modelListId1", INTEGER(11)),
+    Column("modelListId1", BIGINT(11)),
     Column("nsdFilePath", String(255)),
-    Column("modelListId2", INTEGER(11)),
+    Column("modelListId2", BIGINT(11)),
     Column("chi2RgFilePath", String(255)),
     Column("averagedModel", String(255)),
-    Column("averagedModelId", INTEGER(11)),
+    Column("averagedModelId", BIGINT(11)),
     Column("rapidShapeDeterminationModel", String(255)),
-    Column("rapidShapeDeterminationModelId", INTEGER(11)),
+    Column("rapidShapeDeterminationModelId", BIGINT(11)),
     Column("shapeDeterminationModel", String(255)),
-    Column("shapeDeterminationModelId", INTEGER(11)),
-    Column("abInitioModelId", INTEGER(11)),
+    Column("shapeDeterminationModelId", BIGINT(11)),
+    Column("abInitioModelId", BIGINT(11)),
     Column("comments", String(512)),
 )
 
@@ -1348,6 +1348,8 @@ t_v_datacollection_summary = Table(
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
+            "GphNative",
         ),
     ),
     Column("DataCollectionGroup_startTime", DateTime),
@@ -1693,6 +1695,8 @@ t_v_datacollection_summary_datacollectiongroup = Table(
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
+            "GphNative",
         ),
     ),
     Column("DataCollectionGroup_startTime", DateTime),
@@ -2072,7 +2076,7 @@ t_v_em_movie = Table(
     Column(
         "Movie_createdTimeStamp",
         TIMESTAMP,
-        server_default=text("'current_timestamp()'"),
+        server_default=text("'0000-00-00 00:00:00'"),
     ),
     Column(
         "MotionCorrection_motionCorrectionId", INTEGER(11), server_default=text("'0'")
@@ -2102,7 +2106,7 @@ t_v_em_movie = Table(
     Column("CTF_estimatedBfactor", String(45)),
     Column("CTF_logFilePath", String(512)),
     Column(
-        "CTF_createdTimeStamp", TIMESTAMP, server_default=text("'current_timestamp()'")
+        "CTF_createdTimeStamp", TIMESTAMP, server_default=text("'0000-00-00 00:00:00'")
     ),
     Column("Proposal_proposalId", INTEGER(10), server_default=text("'0'")),
     Column("BLSession_sessionId", INTEGER(10), server_default=text("'0'")),
@@ -2117,7 +2121,7 @@ t_v_em_stats = Table(
     Column("imageDirectory", String(255)),
     Column("movieId", INTEGER(11), server_default=text("'0'")),
     Column("movieNumber", INTEGER(11)),
-    Column("createdTimeStamp", TIMESTAMP, server_default=text("'current_timestamp()'")),
+    Column("createdTimeStamp", TIMESTAMP, server_default=text("'0000-00-00 00:00:00'")),
     Column("motionCorrectionId", INTEGER(11), server_default=text("'0'")),
     Column("dataCollectionId", INTEGER(10), server_default=text("'0'")),
     Column("totalMotion", String(45)),
@@ -2316,7 +2320,7 @@ t_v_mx_sample = Table(
     Column(
         "BLSample_recordTimeStamp",
         TIMESTAMP,
-        server_default=text("'current_timestamp()'"),
+        server_default=text("'0000-00-00 00:00:00'"),
     ),
     Column("BLSample_SMILES", String(400)),
     Column("Protein_proteinId", INTEGER(10), server_default=text("'0'")),
@@ -2410,7 +2414,7 @@ t_v_phasing = Table(
     Column(
         "PhasingStep_recordTimeStamp",
         TIMESTAMP,
-        server_default=text("'current_timestamp()'"),
+        server_default=text("'0000-00-00 00:00:00'"),
     ),
     Column("DataCollection_dataCollectionId", INTEGER(10), server_default=text("'0'")),
     Column("DataCollection_dataCollectionGroupId", INTEGER(11)),
@@ -2482,11 +2486,7 @@ t_v_phasing = Table(
     Column("PhasingProgramRun_phasingEndTime", DateTime),
     Column("PhasingProgramRun_phasingEnvironment", String(255)),
     Column("PhasingProgramRun_phasingDirectory", String(255)),
-    Column(
-        "PhasingProgramRun_recordTimeStamp",
-        TIMESTAMP,
-        server_default=text("'current_timestamp()'"),
-    ),
+    Column("PhasingProgramRun_recordTimeStamp", TIMESTAMP),
     Column("Protein_proteinId", INTEGER(10), server_default=text("'0'")),
     Column("BLSession_sessionId", INTEGER(10), server_default=text("'0'")),
     Column("BLSession_proposalId", INTEGER(10), server_default=text("'0'")),
@@ -2701,7 +2701,7 @@ t_v_session = Table(
     Column("comments", String(2000)),
     Column("beamLineOperator", String(255)),
     Column("visit_number", INTEGER(10), server_default=text("'0'")),
-    Column("bltimeStamp", TIMESTAMP, server_default=text("'current_timestamp()'")),
+    Column("bltimeStamp", TIMESTAMP, server_default=text("'0000-00-00 00:00:00'")),
     Column("usedFlag", TINYINT(1)),
     Column("sessionTitle", String(255)),
     Column("structureDeterminations", Float),
@@ -2929,7 +2929,7 @@ class Buffer(Base):
     __tablename__ = "Buffer"
 
     bufferId = Column(INTEGER(11), primary_key=True)
-    proposalId = Column(INTEGER(11), nullable=False, server_default=text("-1"))
+    proposalId = Column(INTEGER(11), nullable=False, server_default=text("'-1'"))
     safetyLevelId = Column(
         ForeignKey("SafetyLevel.safetyLevelId", ondelete="CASCADE"), index=True
     )
@@ -3097,7 +3097,7 @@ class Person(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     externalId = Column(BINARY(16))
@@ -3146,7 +3146,7 @@ class PhasingProgramAttachment(Base):
     input = Column(TINYINT(1))
     recordTimeStamp = Column(
         TIMESTAMP,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -3222,7 +3222,7 @@ class SpaceGroup(Base):
     MX_used = Column(
         TINYINT(1),
         nullable=False,
-        server_default=text("0"),
+        server_default=text("'0'"),
         comment="1 if used in the crystal form",
     )
 
@@ -3284,7 +3284,7 @@ class WorkflowDehydration(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -3369,7 +3369,9 @@ class AutoProcScalingStatistics(Base):
     anomalousMultiplicity = Column(Float, comment="Anomalous multiplicity")
     recordTimeStamp = Column(DateTime, comment="Creation or last update date/time")
     anomalous = Column(
-        TINYINT(1), server_default=text("0"), comment="boolean type:0 noanoum - 1 anoum"
+        TINYINT(1),
+        server_default=text("'0'"),
+        comment="boolean type:0 noanoum - 1 anoum",
     )
     ccHalf = Column(Float, comment="information from XDS")
     ccAno = Column(Float)
@@ -3451,7 +3453,7 @@ class MXMRRun(Base):
     )
     success = Column(
         TINYINT(1),
-        server_default=text("0"),
+        server_default=text("'0'"),
         comment="Indicates whether the program completed. 1 for success, 0 for failure.",
     )
     message = Column(
@@ -3567,7 +3569,7 @@ class Phasing(Base):
     lowRes = Column(Float(asdecimal=True))
     highRes = Column(Float(asdecimal=True))
     recordTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     PhasingAnalysis = relationship("PhasingAnalysis")
@@ -3608,7 +3610,7 @@ class PhasingStep(Base):
     highRes = Column(String(45))
     groupName = Column(String(45))
     recordTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     AutoProcScaling = relationship("AutoProcScaling")
@@ -3643,7 +3645,7 @@ class PhasingHasScaling(Base):
         comment="serial number of the dataset and always reserve 0 for the reference",
     )
     recordTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     AutoProcScaling = relationship("AutoProcScaling")
@@ -3717,14 +3719,14 @@ class Proposal(Base):
         ForeignKey("Person.personId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     title = Column(VARCHAR(200))
     proposalCode = Column(String(45))
     proposalNumber = Column(String(45))
     proposalType = Column(String(2), comment="Proposal type: MX, BX")
     bltimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     externalId = Column(BINARY(16))
     state = Column(Enum("Open", "Closed", "Cancelled"), server_default=text("'Open'"))
@@ -3736,7 +3738,7 @@ class StockSolution(Base):
     __tablename__ = "StockSolution"
 
     stockSolutionId = Column(INTEGER(11), primary_key=True)
-    proposalId = Column(INTEGER(11), nullable=False, server_default=text("-1"))
+    proposalId = Column(INTEGER(11), nullable=False, server_default=text("'-1'"))
     bufferId = Column(
         ForeignKey("Buffer.bufferId", ondelete="CASCADE"), nullable=False, index=True
     )
@@ -3891,7 +3893,7 @@ class BLSession(Base):
         ForeignKey("Proposal.proposalId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     projectCode = Column(String(45))
     startDate = Column(DateTime, index=True)
@@ -3901,9 +3903,9 @@ class BLSession(Base):
     nbShifts = Column(INTEGER(10), index=True)
     comments = Column(String(2000))
     beamLineOperator = Column(String(255))
-    visit_number = Column(INTEGER(10), server_default=text("0"))
+    visit_number = Column(INTEGER(10), server_default=text("'0'"))
     bltimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     usedFlag = Column(
         TINYINT(1),
@@ -3956,8 +3958,8 @@ class Component(Base):
 class LabContact(Base):
     __tablename__ = "LabContact"
     __table_args__ = (
-        Index("personAndProposal", "personId", "proposalId", unique=True),
         Index("cardNameAndProposal", "cardName", "proposalId", unique=True),
+        Index("personAndProposal", "personId", "proposalId", unique=True),
     )
 
     labContactId = Column(INTEGER(10), primary_key=True)
@@ -3971,14 +3973,16 @@ class LabContact(Base):
     defaultCourrierCompany = Column(String(45))
     courierAccount = Column(String(45))
     billingReference = Column(String(45))
-    dewarAvgCustomsValue = Column(INTEGER(10), nullable=False, server_default=text("0"))
+    dewarAvgCustomsValue = Column(
+        INTEGER(10), nullable=False, server_default=text("'0'")
+    )
     dewarAvgTransportValue = Column(
-        INTEGER(10), nullable=False, server_default=text("0")
+        INTEGER(10), nullable=False, server_default=text("'0'")
     )
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -4062,7 +4066,7 @@ class PhasingStatistics(Base):
     nReflections = Column(INTEGER(11))
     recordTimeStamp = Column(
         TIMESTAMP,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -4134,7 +4138,7 @@ class Protein(Base):
         ForeignKey("Proposal.proposalId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     name = Column(VARCHAR(255))
     acronym = Column(String(45), index=True)
@@ -4144,13 +4148,13 @@ class Protein(Base):
     hazardGroup = Column(
         TINYINT(3),
         nullable=False,
-        server_default=text("1"),
+        server_default=text("'1'"),
         comment="A.k.a. risk group",
     )
     containmentLevel = Column(
         TINYINT(3),
         nullable=False,
-        server_default=text("1"),
+        server_default=text("'1'"),
         comment="A.k.a. biosafety level, which indicates the level of containment required",
     )
     safetyLevel = Column(Enum("GREEN", "YELLOW", "RED"))
@@ -4159,9 +4163,9 @@ class Protein(Base):
     sequence = Column(Text)
     personId = Column(INTEGER(10), index=True)
     bltimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
-    isCreatedBySampleSheet = Column(TINYINT(1), server_default=text("0"))
+    isCreatedBySampleSheet = Column(TINYINT(1), server_default=text("'0'"))
     externalId = Column(BINARY(16))
     componentTypeId = Column(
         ForeignKey(
@@ -4171,7 +4175,7 @@ class Protein(Base):
     )
     modId = Column(String(20))
     concentrationTypeId = Column(INTEGER(10))
-    _global = Column("global", TINYINT(1), server_default=text("0"))
+    _global = Column("global", TINYINT(1), server_default=text("'0'"))
 
     ComponentType = relationship("ComponentType")
     Proposal = relationship("Proposal")
@@ -4194,7 +4198,7 @@ class SWOnceToken(Base):
     )
     validity = Column(String(200))
     recordTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     Person = relationship("Person")
@@ -4296,7 +4300,7 @@ class BeamlineAction(Base):
     startTimestamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
     )
     endTimestamp = Column(
         TIMESTAMP, nullable=False, server_default=text("'0000-00-00 00:00:00'")
@@ -4349,7 +4353,7 @@ class Crystal(Base):
         ForeignKey("Protein.proteinId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     crystalUUID = Column(String(45))
     name = Column(String(255))
@@ -4371,7 +4375,7 @@ class Crystal(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     abundance = Column(Float)
@@ -4395,7 +4399,7 @@ class DewarRegistry(Base):
     )
     purchaseDate = Column(DateTime)
     bltimestamp = Column(
-        DateTime, nullable=False, server_default=text("current_timestamp()")
+        DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     LabContact = relationship("LabContact")
@@ -4527,14 +4531,14 @@ class SessionHasPerson(Base):
         primary_key=True,
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     personId = Column(
         ForeignKey("Person.personId", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     role = Column(
         Enum(
@@ -4547,7 +4551,7 @@ class SessionHasPerson(Base):
             "Alternate Contact",
         )
     )
-    remote = Column(TINYINT(1), server_default=text("0"))
+    remote = Column(TINYINT(1), server_default=text("'0'"))
 
     Person = relationship("Person")
     BLSession = relationship("BLSession")
@@ -4561,7 +4565,7 @@ class Shipping(Base):
         ForeignKey("Proposal.proposalId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     shippingName = Column(String(45), index=True)
     deliveryAgent_agentName = Column(String(45))
@@ -4572,7 +4576,7 @@ class Shipping(Base):
     shippingStatus = Column(String(45), index=True)
     bltimeStamp = Column(DateTime)
     laboratoryId = Column(INTEGER(10), index=True)
-    isStorageShipping = Column(TINYINT(1), server_default=text("0"))
+    isStorageShipping = Column(TINYINT(1), server_default=text("'0'"))
     creationDate = Column(DateTime, index=True)
     comments = Column(String(255))
     sendingLabContactId = Column(
@@ -4670,8 +4674,8 @@ class Dewar(Base):
     comments = Column(TINYTEXT)
     storageLocation = Column(String(45))
     dewarStatus = Column(String(45), index=True)
-    bltimeStamp = Column(TIMESTAMP, server_default=text("current_timestamp()"))
-    isStorageDewar = Column(TINYINT(1), server_default=text("0"))
+    bltimeStamp = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    isStorageDewar = Column(TINYINT(1), server_default=text("'0'"))
     barCode = Column(String(45), unique=True)
     firstExperimentId = Column(
         ForeignKey("BLSession.sessionId", ondelete="CASCADE", onupdate="CASCADE"),
@@ -4687,7 +4691,7 @@ class Dewar(Base):
     )
     isReimbursed = Column(
         TINYINT(1),
-        server_default=text("0"),
+        server_default=text("'0'"),
         comment="set this dewar as reimbursed by the user office",
     )
 
@@ -4713,7 +4717,7 @@ class DewarRegistryHasProposal(Base):
         index=True,
         comment="Person registering the dewar",
     )
-    recordTimestamp = Column(DateTime, server_default=text("current_timestamp()"))
+    recordTimestamp = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     labContactId = Column(
         ForeignKey("LabContact.labContactId", ondelete="CASCADE", onupdate="CASCADE"),
         index=True,
@@ -4854,7 +4858,7 @@ class Container(Base):
     requestedImagerId = Column(INTEGER(10))
     requestedReturn = Column(
         TINYINT(1),
-        server_default=text("0"),
+        server_default=text("'0'"),
         comment="True for requesting return, False means container will be disposed",
     )
     comments = Column(String(255))
@@ -4961,7 +4965,7 @@ class BFAutomationFault(Base):
     stacktrace = Column(Text)
     resolved = Column(TINYINT(1))
     faultTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     BF_automationError = relationship("BFAutomationError")
@@ -5005,7 +5009,7 @@ class BLSample(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     SMILES = Column(
@@ -5045,7 +5049,7 @@ class ContainerHistory(Base):
     )
     location = Column(String(45))
     blTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     status = Column(String(45))
 
@@ -5098,7 +5102,7 @@ class ContainerQueue(Base):
         index=True,
     )
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     completedTimeStamp = Column(TIMESTAMP)
 
@@ -5255,7 +5259,7 @@ class BLSubSample(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     motorPositionId = Column(
@@ -5319,6 +5323,8 @@ class DataCollectionGroup(Base):
             "Still",
             "SSX-Chip",
             "SSX-Jet",
+            "LineScan",
+            "GphNative",
         )
     )
     startTime = Column(DateTime, comment="Start time of the dataCollectionGroup")
@@ -5422,7 +5428,7 @@ class RobotAction(Base):
     startTimestamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
     )
     endTimestamp = Column(
         TIMESTAMP, nullable=False, server_default=text("'0000-00-00 00:00:00'")
@@ -5511,7 +5517,7 @@ class BLSampleImageAnalysis(Base):
     goodnessOfFit = Column(Float)
     scaleFactor = Column(Float)
     resultCode = Column(String(15))
-    matchStartTimeStamp = Column(TIMESTAMP, server_default=text("current_timestamp()"))
+    matchStartTimeStamp = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
     matchEndTimeStamp = Column(TIMESTAMP)
 
     BLSampleImage = relationship("BLSampleImage")
@@ -5690,7 +5696,7 @@ class Screening(Base):
     )
     dataCollectionId = Column(INTEGER(10))
     bltimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     programVersion = Column(String(45))
     comments = Column(String(255))
@@ -5749,13 +5755,13 @@ class BLSampleHasEnergyScan(Base):
         ForeignKey("BLSample.blSampleId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     energyScanId = Column(
         ForeignKey("EnergyScan.energyScanId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     blSampleHasEnergyScanId = Column(INTEGER(11), primary_key=True)
 
@@ -5835,7 +5841,7 @@ class ScreeningInput(Base):
         ForeignKey("Screening.screeningId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     diffractionPlanId = Column(INTEGER(11), comment="references DiffractionPlan table")
     beamX = Column(Float)
@@ -5857,7 +5863,7 @@ class ScreeningOutput(Base):
         ForeignKey("Screening.screeningId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     statusDescription = Column(String(1024))
     rejectedReflections = Column(INTEGER(10))
@@ -5872,8 +5878,8 @@ class ScreeningOutput(Base):
     mosaicity = Column(Float)
     iOverSigma = Column(Float)
     diffractionRings = Column(TINYINT(1))
-    strategySuccess = Column(TINYINT(1), nullable=False, server_default=text("0"))
-    mosaicityEstimated = Column(TINYINT(1), nullable=False, server_default=text("0"))
+    strategySuccess = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
+    mosaicityEstimated = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
     rankingResolution = Column(Float(asdecimal=True))
     program = Column(String(45))
     doseTotal = Column(Float(asdecimal=True))
@@ -5881,8 +5887,8 @@ class ScreeningOutput(Base):
     totalRotationRange = Column(Float(asdecimal=True))
     totalNumberOfImages = Column(INTEGER(11))
     rFriedel = Column(Float(asdecimal=True))
-    indexingSuccess = Column(TINYINT(1), nullable=False, server_default=text("0"))
-    screeningSuccess = Column(TINYINT(1), server_default=text("0"))
+    indexingSuccess = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
+    screeningSuccess = Column(TINYINT(1), server_default=text("'0'"))
 
     Screening = relationship("Screening")
 
@@ -5899,13 +5905,13 @@ class ScreeningRank(Base):
         ),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     screeningId = Column(
         ForeignKey("Screening.screeningId", ondelete="CASCADE", onupdate="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     rankValue = Column(Float)
     rankInformation = Column(String(1024))
@@ -5924,7 +5930,7 @@ class ScreeningOutputLattice(Base):
         ),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     spaceGroup = Column(String(45))
     pointGroup = Column(String(45))
@@ -5944,8 +5950,8 @@ class ScreeningOutputLattice(Base):
     unitCell_alpha = Column(Float)
     unitCell_beta = Column(Float)
     unitCell_gamma = Column(Float)
-    bltimeStamp = Column(TIMESTAMP, server_default=text("current_timestamp()"))
-    labelitIndexing = Column(TINYINT(1), server_default=text("0"))
+    bltimeStamp = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    labelitIndexing = Column(TINYINT(1), server_default=text("'0'"))
 
     ScreeningOutput = relationship("ScreeningOutput")
 
@@ -5960,7 +5966,7 @@ class ScreeningStrategy(Base):
         ),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     phiStart = Column(Float)
     phiEnd = Column(Float)
@@ -5969,7 +5975,7 @@ class ScreeningStrategy(Base):
     resolution = Column(Float)
     completeness = Column(Float)
     multiplicity = Column(Float)
-    anomalous = Column(TINYINT(1), nullable=False, server_default=text("0"))
+    anomalous = Column(TINYINT(1), nullable=False, server_default=text("'0'"))
     program = Column(String(45))
     rankingResolution = Column(Float)
     transmission = Column(
@@ -6108,7 +6114,7 @@ class DataCollection(Base):
     xBeamPix = Column(Float, comment="Beam size in pixels")
     yBeamPix = Column(Float, comment="Beam size in pixels")
     comments = Column(String(1024))
-    printableForReport = Column(TINYINT(3), server_default=text("1"))
+    printableForReport = Column(TINYINT(3), server_default=text("'1'"))
     slitGapVertical = Column(Float)
     slitGapHorizontal = Column(Float)
     transmission = Column(Float)
@@ -6141,7 +6147,7 @@ class DataCollection(Base):
     imageQualityIndicatorsPlotPath = Column(String(512))
     imageQualityIndicatorsCSVPath = Column(String(512))
     blSampleId = Column(INTEGER(10))
-    sessionId = Column(INTEGER(10), server_default=text("0"))
+    sessionId = Column(INTEGER(10), server_default=text("'0'"))
     experimentType = Column(String(24))
     crystalClass = Column(String(20))
     chiStart = Column(Float)
@@ -6161,7 +6167,7 @@ class DataCollection(Base):
     magnification = Column(INTEGER(11), comment="Unit: X")
     binning = Column(
         TINYINT(1),
-        server_default=text("1"),
+        server_default=text("'1'"),
         comment="1 or 2. Number of pixels to process as 1. (Use mean value.)",
     )
     particleDiameter = Column(Float, comment="Unit: nm")
@@ -6232,7 +6238,7 @@ class DataCollectionFileAttachment(Base):
         comment="snapshot: image file, usually of the sample. \\r\\nlog: a text file with logging info. \\r\\nxy: x and y data in text format. \\r\\nrecip: a compressed csv file with reciprocal space coordinates.",
     )
     createTime = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     DataCollection = relationship("DataCollection")
@@ -6261,13 +6267,13 @@ class Image(Base):
 
     imageId = Column(INTEGER(10), primary_key=True)
     dataCollectionId = Column(
-        ForeignKey("DataCollection.dataCollectionId", ondelete="CASCADE"),
         ForeignKey(
             "DataCollection.dataCollectionId", ondelete="CASCADE", onupdate="CASCADE"
         ),
+        ForeignKey("DataCollection.dataCollectionId", ondelete="CASCADE"),
         nullable=False,
         index=True,
-        server_default=text("0"),
+        server_default=text("'0'"),
     )
     motorPositionId = Column(INTEGER(10), index=True)
     imageNumber = Column(INTEGER(10), index=True)
@@ -6284,7 +6290,7 @@ class Image(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -6310,7 +6316,7 @@ class Movie(Base):
     xmlMetaDataFullPath = Column(String(255))
     dosePerImage = Column(String(45))
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     DataCollection = relationship("DataCollection")
@@ -6377,12 +6383,12 @@ class SSXProcessingResult(Base):
     indexingType = Column(Enum("Preliminary", "Final"))
     status = Column(Enum("Running", "Failed", "Success"))
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     lastUpdate = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("'0000-00-00 00:00:00'"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="last update timestamp",
     )
     comments = Column(String(100))
@@ -6459,7 +6465,9 @@ class AutoProcIntegration(Base):
     cell_gamma = Column(Float, comment="Unit cell")
     recordTimeStamp = Column(DateTime, comment="Creation or last update date/time")
     anomalous = Column(
-        TINYINT(1), server_default=text("0"), comment="boolean type:0 noanoum - 1 anoum"
+        TINYINT(1),
+        server_default=text("'0'"),
+        comment="boolean type:0 noanoum - 1 anoum",
     )
 
     AutoProcProgram = relationship("AutoProcProgram")
@@ -6581,7 +6589,7 @@ class MotionCorrection(Base):
     patchesUsed = Column(String(45))
     logFileFullPath = Column(String(512))
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     Movie = relationship("Movie")
@@ -6637,12 +6645,12 @@ class SSXProcessingResultAttachment(Base):
     filePath = Column(String(255), nullable=False)
     fileType = Column(Enum("Result", "Log", "Graph"), nullable=False)
     createdTimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     lastUpdate = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("'0000-00-00 00:00:00'"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="last update timestamp",
     )
 
@@ -6673,7 +6681,7 @@ class WorkflowMesh(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
 
@@ -6747,7 +6755,7 @@ class AutoProcStatus(Base):
     )
     comments = Column(String(1024), comment="comments")
     bltimeStamp = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
 
     AutoProcIntegration = relationship("AutoProcIntegration")
@@ -6775,7 +6783,7 @@ class GridInfo(Base):
     recordTimeStamp = Column(
         TIMESTAMP,
         nullable=False,
-        server_default=text("current_timestamp()"),
+        server_default=text("CURRENT_TIMESTAMP"),
         comment="Creation or last update date/time",
     )
     orientation = Column(

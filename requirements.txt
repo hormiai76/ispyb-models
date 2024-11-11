@@ -1,3 +1,5 @@
 sqlalchemy
 mysql-connector-python==8.0.29
 pytest
+black
+sqlacodegen
