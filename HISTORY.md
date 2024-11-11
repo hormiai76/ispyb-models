@@ -3,7 +3,7 @@
 ## Unreleased / main
 
 
-## v1.2.2 (08/11/2024)
+## v1.2.3 (11/11/2024)
 
 Add LineScan to DataCollectionGroup.experimentType
 
