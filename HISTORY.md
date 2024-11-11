@@ -5,7 +5,7 @@
 
 ## v1.2.3 (11/11/2024)
 
-Add LineScan to DataCollectionGroup.experimentType
+Add `LineScan` and `GphNative` to `DataCollectionGroup.experimentType`.
 
 
 ## v1.2.2 (13/09/2024)
@@ -28,7 +28,7 @@ Create new tables:
 -   EventType
 -   Event
 
-Add SSX-Chip and SSX-Jet to DataCollectionGroup.experimentType.
+Add `SSX-Chip` and `SSX-Jet` to `DataCollectionGroup.experimentType`.
 
 ## v1.0.0 (20/07/2022)
 
