@@ -6392,6 +6392,7 @@ class SSXProcessingResult(Base):
         comment="last update timestamp",
     )
     comments = Column(String(100))
+    nbCrystals = Column(INTEGER(11), comment="Number of crystals")
 
     DataCollection = relationship("DataCollection")
 
