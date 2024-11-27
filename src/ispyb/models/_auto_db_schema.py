@@ -6643,7 +6643,9 @@ class SSXProcessingResultAttachment(Base):
     )
     fileName = Column(String(255), nullable=False)
     filePath = Column(String(255), nullable=False)
-    fileType = Column(Enum("Result", "Log", "Graph"), nullable=False)
+    fileType = Column(
+        Enum("Real-time processing results", "Processing results"), nullable=False
+    )
     createdTimeStamp = Column(
         TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
     )
