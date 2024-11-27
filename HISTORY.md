@@ -4,6 +4,11 @@
 
 ## v1.2.5 (26/11/2024)
 
+Update `fyleType` Enum values in the `SSXProcessingResultAttachment` table.
+
+
+## v1.2.5 (26/11/2024)
+
 Make `dataCollectionId` mandatory in the `SSXProcessingResult` table.
 Create a new entry in the `Permission` table to be used by beamine service accounts.
 
