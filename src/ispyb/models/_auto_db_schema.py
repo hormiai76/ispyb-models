@@ -3960,8 +3960,8 @@ class Component(Base):
 class LabContact(Base):
     __tablename__ = "LabContact"
     __table_args__ = (
-        Index("personAndProposal", "personId", "proposalId", unique=True),
         Index("cardNameAndProposal", "cardName", "proposalId", unique=True),
+        Index("personAndProposal", "personId", "proposalId", unique=True),
     )
 
     labContactId = Column(INTEGER(10), primary_key=True)
@@ -6376,6 +6376,7 @@ class SSXProcessingResult(Base):
         ForeignKey(
             "DataCollection.dataCollectionId", ondelete="CASCADE", onupdate="CASCADE"
         ),
+        nullable=False,
         index=True,
     )
     hitRate = Column(Float)
