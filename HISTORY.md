@@ -2,6 +2,11 @@
 
 ## Unreleased / main
 
+## v1.2.5 (26/11/2024)
+
+Make `dataCollectionId` mandatory in the `SSXProcessingResult` table.
+Create a new entry in the `Permission` table to be used by beamine service accounts.
+
 ## v1.2.4 (13/11/2024)
 
 Add `nbCrystals` to `SSXProcessingResult` table.
