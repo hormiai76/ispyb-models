@@ -31,7 +31,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from .base import CustomBase
 
-
 Base = declarative_base(cls=CustomBase)
 metadata = Base.metadata
 
@@ -2739,7 +2738,9 @@ t_v_tracking_shipment_history = Table(
     Column("Dewar_firstExperimentId", INTEGER(10)),
     Column("Dewar_trackingNumberToSynchrotron", String(30)),
     Column("Dewar_trackingNumberFromSynchrotron", String(30)),
-    Column("Dewar_type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")),
+    Column(
+        "Dewar_type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")
+    ),
     Column("Shipping_shippingId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_proposalId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_shippingName", String(45)),
@@ -4687,7 +4688,9 @@ class Dewar(Base):
     trackingNumberFromSynchrotron = Column(String(30))
     facilityCode = Column(String(20), comment="Unique barcode assigned to each dewar")
     type = Column(
-        Enum("Dewar", "Toolbox", "Other"), nullable=False, server_default=text("'Dewar'")
+        Enum("Dewar", "Toolbox", "Other"),
+        nullable=False,
+        server_default=text("'Dewar'"),
     )
     isReimbursed = Column(
         TINYINT(1),
