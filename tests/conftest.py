@@ -6,7 +6,6 @@ import sqlalchemy
 import sqlalchemy.orm
 import sqlalchemy.schema
 
-
 engine = sqlalchemy.create_engine(
     url=os.environ["SQLALCHEMY_DATABASE_URI"],
     connect_args={"use_pure": True},
