@@ -2,7 +2,12 @@
 
 ## Unreleased / main
 
-## v1.2.5 (26/11/2024)
+## v1.2.7 (03/06/2026)
+
+Update `type` Enum values in the `Dewar` table.
+
+
+## v1.2.6 (26/11/2024)
 
 Update `fyleType` Enum values in the `SSXProcessingResultAttachment` table.
 
