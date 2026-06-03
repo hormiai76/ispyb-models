@@ -2006,7 +2006,7 @@ t_v_dewar_summary = Table(
     Column("transportValue", INTEGER(10)),
     Column("trackingNumberToSynchrotron", String(30)),
     Column("trackingNumberFromSynchrotron", String(30)),
-    Column("type", Enum("Dewar", "Toolbox"), server_default=text("'Dewar'")),
+    Column("type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")),
     Column("isReimbursed", TINYINT(1), server_default=text("'0'")),
     Column("sessionId", INTEGER(10), server_default=text("'0'")),
     Column("beamlineName", String(45)),
@@ -2739,7 +2739,7 @@ t_v_tracking_shipment_history = Table(
     Column("Dewar_firstExperimentId", INTEGER(10)),
     Column("Dewar_trackingNumberToSynchrotron", String(30)),
     Column("Dewar_trackingNumberFromSynchrotron", String(30)),
-    Column("Dewar_type", Enum("Dewar", "Toolbox"), server_default=text("'Dewar'")),
+    Column("Dewar_type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")),
     Column("Shipping_shippingId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_proposalId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_shippingName", String(45)),
@@ -4687,7 +4687,7 @@ class Dewar(Base):
     trackingNumberFromSynchrotron = Column(String(30))
     facilityCode = Column(String(20), comment="Unique barcode assigned to each dewar")
     type = Column(
-        Enum("Dewar", "Toolbox"), nullable=False, server_default=text("'Dewar'")
+        Enum("Dewar", "Toolbox", "Other"), nullable=False, server_default=text("'Dewar'")
     )
     isReimbursed = Column(
         TINYINT(1),
