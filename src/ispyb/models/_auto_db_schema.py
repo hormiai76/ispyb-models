@@ -6944,7 +6944,6 @@ t_ParticleClassification_has_CryoemInitialModel = Table(
         nullable=False,
         index=True,
     ),
-
 )
 
 
@@ -6970,11 +6969,24 @@ class ProposalDataDeletionRequest(Base):
         index=True,
         server_default=text("0"),
     )
-    retentionDate = Column(Date, comment="Date until which the data should be retained"),
+    retentionDate = (
+        Column(Date, comment="Date until which the data should be retained"),
+    )
     comments = Column(VARCHAR(2000))
-    status = Column(Enum("REQUESTED','APPROVED','REJECTED','COMPLETED','CANCELLED"), server_default=text("'REQUESTED'")),
-    created = Column(TIMESTAMP, nullable=False, server_default=text("current_timestamp()"))
-    updated = Column(TIMESTAMP, nullable=False, server_default=text("current_timestamp() ON UPDATE current_timestamp()"))
+    status = (
+        Column(
+            Enum("REQUESTED','APPROVED','REJECTED','COMPLETED','CANCELLED"),
+            server_default=text("'REQUESTED'"),
+        ),
+    )
+    created = Column(
+        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+    )
+    updated = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+    )
     approvalDate = Column(TIMESTAMP, nullable=True)
     completedDate = Column(TIMESTAMP, nullable=True)
 
