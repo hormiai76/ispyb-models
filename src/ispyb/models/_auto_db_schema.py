@@ -6970,7 +6970,7 @@ class ProposalDataDeletionRequest(Base):
         server_default=text("0"),
     )
     retentionDate = (
-        Column(Date, comment="Date until which the data should be retained"),
+        Column(Date, comment="Date until which the data should be retained")
     )
     comments = Column(VARCHAR(2000))
     status = (
