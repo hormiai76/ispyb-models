@@ -2,15 +2,17 @@
 
 ## Unreleased / main
 
+## v1.2.8 (16/07/2026)
+
+Create new table `ProposalDataDeletionRequest` to manage the data deletion for the industry proposals.
+
 ## v1.2.7 (03/06/2026)
 
 Update `type` Enum values in the `Dewar` table.
 
-
 ## v1.2.6 (26/11/2024)
 
 Update `fyleType` Enum values in the `SSXProcessingResultAttachment` table.
-
 
 ## v1.2.5 (26/11/2024)
 
@@ -25,36 +27,34 @@ Add `nbCrystals` to `SSXProcessingResult` table.
 
 Add `LineScan` and `GphNative` to `DataCollectionGroup.experimentType`.
 
-
 ## v1.2.2 (13/09/2024)
 
 Create new tables
 
--   SSXProcessingResult
--   SSXProcessingResultAttachment
-
+- SSXProcessingResult
+- SSXProcessingResultAttachment
 
 ## v1.1.0 (17/01/2023)
 
 Create new tables:
 
--   SSXDataCollection
--   Component
--   SampleComposition
--   CrystalComposition
--   EventChain
--   EventType
--   Event
+- SSXDataCollection
+- Component
+- SampleComposition
+- CrystalComposition
+- EventChain
+- EventType
+- Event
 
 Add `SSX-Chip` and `SSX-Jet` to `DataCollectionGroup.experimentType`.
 
 ## v1.0.0 (20/07/2022)
 
--   Regenerate models automatically with recent sqlacodegen (breaking: removes deprecated `backref` option)
+- Regenerate models automatically with recent sqlacodegen (breaking: removes deprecated `backref` option)
 
 ## v0.0.3 (18/07/2022)
 
--   Initial release
--   Absolute basic tests
--   Generate update pr automatically
--   Publish to pypi
+- Initial release
+- Absolute basic tests
+- Generate update pr automatically
+- Publish to pypi
