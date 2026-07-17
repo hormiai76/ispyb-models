@@ -2,6 +2,10 @@
 
 ## Unreleased / main
 
+## v1.2.9 (16/07/2026)
+
+Fix error in the `ProposalDataDeletionRequest` table in the schema.
+
 ## v1.2.8 (16/07/2026)
 
 Create new table `ProposalDataDeletionRequest` to manage the data deletion for the industry proposals.
