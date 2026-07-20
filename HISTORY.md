@@ -2,6 +2,10 @@
 
 ## Unreleased / main
 
+## v1.3.0 (16/07/2026)
+
+New releasefollowing the offial nstruction containing the `ProposalDataDeletionRequest` table in the schema.
+
 ## v1.2.9 (16/07/2026)
 
 Fix error in the `ProposalDataDeletionRequest` table in the schema.

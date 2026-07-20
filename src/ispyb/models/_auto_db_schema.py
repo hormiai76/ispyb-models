@@ -31,6 +31,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from .base import CustomBase
 
+
 Base = declarative_base(cls=CustomBase)
 metadata = Base.metadata
 
@@ -990,6 +991,27 @@ class Workflow(Base):
             "MXPressR_dehydration",
             "MeshAndCollect",
             "MeshAndCollectFromFile",
+            "CalibrateKappa",
+            "CenterRotationAxis",
+            "CentreBeam",
+            "CentrePin",
+            "ChipX_collect",
+            "ChipX_collect_sections",
+            "ChipX_left_position",
+            "ChipX_right_position",
+            "DistanceCalibration",
+            "IceRingsMeshScan",
+            "MeshAndBurn",
+            "MXPressA_globalp",
+            "MXPressA_globalp_full",
+            "MXPressA_globalp_minimal",
+            "MXPressA_globalp_quick",
+            "MXPressA_HTX",
+            "MXPressF_twoMeshes",
+            "MXPressK",
+            "MXPressO_540",
+            "MXPressS",
+            "TroubleShootingWithDialog",
         )
     )
     workflowTypeId = Column(INTEGER(11))
@@ -1461,6 +1483,27 @@ t_v_datacollection_summary = Table(
             "MXPressR_dehydration",
             "MeshAndCollect",
             "MeshAndCollectFromFile",
+            "CalibrateKappa",
+            "CenterRotationAxis",
+            "CentreBeam",
+            "CentrePin",
+            "ChipX_collect",
+            "ChipX_collect_sections",
+            "ChipX_left_position",
+            "ChipX_right_position",
+            "DistanceCalibration",
+            "IceRingsMeshScan",
+            "MeshAndBurn",
+            "MXPressA_globalp",
+            "MXPressA_globalp_full",
+            "MXPressA_globalp_minimal",
+            "MXPressA_globalp_quick",
+            "MXPressA_HTX",
+            "MXPressF_twoMeshes",
+            "MXPressK",
+            "MXPressO_540",
+            "MXPressS",
+            "TroubleShootingWithDialog",
         ),
     ),
     Column("Workflow_status", String(255)),
@@ -1780,6 +1823,27 @@ t_v_datacollection_summary_datacollectiongroup = Table(
             "MXPressR_dehydration",
             "MeshAndCollect",
             "MeshAndCollectFromFile",
+            "CalibrateKappa",
+            "CenterRotationAxis",
+            "CentreBeam",
+            "CentrePin",
+            "ChipX_collect",
+            "ChipX_collect_sections",
+            "ChipX_left_position",
+            "ChipX_right_position",
+            "DistanceCalibration",
+            "IceRingsMeshScan",
+            "MeshAndBurn",
+            "MXPressA_globalp",
+            "MXPressA_globalp_full",
+            "MXPressA_globalp_minimal",
+            "MXPressA_globalp_quick",
+            "MXPressA_HTX",
+            "MXPressF_twoMeshes",
+            "MXPressK",
+            "MXPressO_540",
+            "MXPressS",
+            "TroubleShootingWithDialog",
         ),
     ),
     Column("Workflow_status", String(255)),
@@ -2005,7 +2069,7 @@ t_v_dewar_summary = Table(
     Column("transportValue", INTEGER(10)),
     Column("trackingNumberToSynchrotron", String(30)),
     Column("trackingNumberFromSynchrotron", String(30)),
-    Column("type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")),
+    Column("type", Enum("Dewar", "Toolbox"), server_default=text("'Dewar'")),
     Column("isReimbursed", TINYINT(1), server_default=text("'0'")),
     Column("sessionId", INTEGER(10), server_default=text("'0'")),
     Column("beamlineName", String(45)),
@@ -2716,7 +2780,7 @@ t_v_session = Table(
         "BLSession_lastUpdate", TIMESTAMP, server_default=text("'0000-00-00 00:00:00'")
     ),
     Column("BLSession_protectedData", String(1024)),
-    Column("Proposal_title", String(200)),
+    Column("Proposal_title", String(2000)),
     Column("Proposal_proposalCode", String(45)),
     Column("Proposal_ProposalNumber", String(45)),
     Column("Proposal_ProposalType", String(2)),
@@ -2738,9 +2802,7 @@ t_v_tracking_shipment_history = Table(
     Column("Dewar_firstExperimentId", INTEGER(10)),
     Column("Dewar_trackingNumberToSynchrotron", String(30)),
     Column("Dewar_trackingNumberFromSynchrotron", String(30)),
-    Column(
-        "Dewar_type", Enum("Dewar", "Toolbox", "Other"), server_default=text("'Dewar'")
-    ),
+    Column("Dewar_type", Enum("Dewar", "Toolbox"), server_default=text("'Dewar'")),
     Column("Shipping_shippingId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_proposalId", INTEGER(10), server_default=text("'0'")),
     Column("Shipping_shippingName", String(45)),
@@ -3724,7 +3786,7 @@ class Proposal(Base):
         index=True,
         server_default=text("0"),
     )
-    title = Column(VARCHAR(200))
+    title = Column(VARCHAR(2000))
     proposalCode = Column(String(45))
     proposalNumber = Column(String(45))
     proposalType = Column(String(2), comment="Proposal type: MX, BX")
@@ -4111,6 +4173,43 @@ class ProjectHasUser(Base):
     username = Column(String(15))
 
     Project = relationship("Project")
+
+
+class ProposalDataDeletionRequest(Base):
+    __tablename__ = "ProposalDataDeletionRequest"
+
+    proposalDataDeletionRequestId = Column(INTEGER(10), primary_key=True)
+    proposalId = Column(ForeignKey("Proposal.proposalId"), nullable=False, index=True)
+    requestedBy = Column(ForeignKey("Person.personId"), nullable=False, index=True)
+    approvedBy = Column(ForeignKey("Person.personId"), index=True)
+    retentionDate = Column(Date)
+    comments = Column(String(2000))
+    status = Column(
+        Enum("REQUESTED", "APPROVED", "REJECTED", "COMPLETED", "CANCELLED"),
+        nullable=False,
+        index=True,
+        server_default=text("'REQUESTED'"),
+    )
+    created = Column(
+        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+    )
+    updated = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+    )
+    approvalDate = Column(TIMESTAMP)
+    completedDate = Column(TIMESTAMP)
+
+    Person = relationship(
+        "Person",
+        primaryjoin="ProposalDataDeletionRequest.approvedBy == Person.personId",
+    )
+    Proposal = relationship("Proposal")
+    Person1 = relationship(
+        "Person",
+        primaryjoin="ProposalDataDeletionRequest.requestedBy == Person.personId",
+    )
 
 
 class ProposalHasPerson(Base):
@@ -4688,9 +4787,7 @@ class Dewar(Base):
     trackingNumberFromSynchrotron = Column(String(30))
     facilityCode = Column(String(20), comment="Unique barcode assigned to each dewar")
     type = Column(
-        Enum("Dewar", "Toolbox", "Other"),
-        nullable=False,
-        server_default=text("'Dewar'"),
+        Enum("Dewar", "Toolbox"), nullable=False, server_default=text("'Dewar'")
     )
     isReimbursed = Column(
         TINYINT(1),
@@ -6945,47 +7042,3 @@ t_ParticleClassification_has_CryoemInitialModel = Table(
         index=True,
     ),
 )
-
-
-class ProposalDataDeletionRequest(Base):
-    __tablename__ = "ProposalDataDeletionRequest"
-
-    proposalDataDeletionRequestId = Column(INTEGER(10), primary_key=True)
-    proposalId = Column(
-        ForeignKey("Proposal.proposalId", ondelete="CASCADE", onupdate="CASCADE"),
-        nullable=False,
-        index=True,
-        server_default=text("0"),
-    )
-    requestedBy = Column(
-        ForeignKey("Person.personId", ondelete="CASCADE", onupdate="CASCADE"),
-        nullable=False,
-        index=True,
-        server_default=text("0"),
-    )
-    approvedBy = Column(
-        ForeignKey("Person.personId", ondelete="CASCADE", onupdate="CASCADE"),
-        nullable=True,
-        index=True,
-        server_default=text("0"),
-    )
-    retentionDate = Column(Date, comment="Date until which the data should be retained")
-    comments = Column(VARCHAR(2000))
-    status = (
-        Column(
-            Enum("REQUESTED','APPROVED','REJECTED','COMPLETED','CANCELLED"),
-            server_default=text("'REQUESTED'"),
-        ),
-    )
-    created = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
-    )
-    updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
-    )
-    approvalDate = Column(TIMESTAMP, nullable=True)
-    completedDate = Column(TIMESTAMP, nullable=True)
-
-    Person = relationship("Person")
