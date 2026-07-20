@@ -31,7 +31,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from .base import CustomBase
 
-
 Base = declarative_base(cls=CustomBase)
 metadata = Base.metadata
 
