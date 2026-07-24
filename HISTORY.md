@@ -2,9 +2,13 @@
 
 ## Unreleased / main
 
+## v1.3.1 (24/07/2026)
+
+Add relationships and improve the `ProposalDataDeletionRequest` model.
+
 ## v1.3.0 (16/07/2026)
 
-New releasefollowing the offial nstruction containing the `ProposalDataDeletionRequest` table in the schema.
+New release following the offial instruction containing the `ProposalDataDeletionRequest` table in the schema.
 
 ## v1.2.9 (16/07/2026)
 
