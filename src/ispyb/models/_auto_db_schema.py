@@ -3173,6 +3173,18 @@ class Person(Base):
     Project = relationship("Project", secondary="Project_has_Person")
     UserGroup = relationship("UserGroup", secondary="UserGroup_has_Person")
 
+    approvedDataDeletionRequests = relationship(
+        "ProposalDataDeletionRequest",
+        foreign_keys="ProposalDataDeletionRequest.approvedBy",
+        back_populates="approvedByPerson",
+    )
+
+    requestedDataDeletionRequests = relationship(
+        "ProposalDataDeletionRequest",
+        foreign_keys="ProposalDataDeletionRequest.requestedBy",
+        back_populates="requestedByPerson",
+    )
+
 
 class PhasingProgramAttachment(Base):
     __tablename__ = "PhasingProgramAttachment"
@@ -3797,6 +3809,12 @@ class Proposal(Base):
 
     Person = relationship("Person")
 
+    dataDeletionRequests = relationship(
+        "ProposalDataDeletionRequest",
+        foreign_keys="ProposalDataDeletionRequest.proposalId",
+        back_populates="Proposal",
+    )
+
 
 class StockSolution(Base):
     __tablename__ = "StockSolution"
@@ -4180,8 +4198,8 @@ class ProposalDataDeletionRequest(Base):
     proposalDataDeletionRequestId = Column(INTEGER(10), primary_key=True)
     proposalId = Column(ForeignKey("Proposal.proposalId"), nullable=False, index=True)
     requestedBy = Column(ForeignKey("Person.personId"), nullable=False, index=True)
-    approvedBy = Column(ForeignKey("Person.personId"), index=True)
-    retentionDate = Column(Date)
+    approvedBy = Column(ForeignKey("Person.personId"), nullable=True, index=True)
+    retentionDate = Column(Date, nullable=False)
     comments = Column(String(2000))
     status = Column(
         Enum("REQUESTED", "APPROVED", "REJECTED", "COMPLETED", "CANCELLED"),
@@ -4197,17 +4215,28 @@ class ProposalDataDeletionRequest(Base):
         nullable=False,
         server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
     )
-    approvalDate = Column(TIMESTAMP)
-    completedDate = Column(TIMESTAMP)
+    approvalDate = Column(TIMESTAMP, nullable=True)
+    completedDate = Column(TIMESTAMP, nullable=True)
 
-    Person = relationship(
+    approvedByPerson = relationship(
         "Person",
-        primaryjoin="ProposalDataDeletionRequest.approvedBy == Person.personId",
+        foreign_keys=[approvedBy],
+        back_populates="approvedDataDeletionRequests",
+        lazy="selectin",
     )
-    Proposal = relationship("Proposal")
-    Person1 = relationship(
+
+    requestedByPerson = relationship(
         "Person",
-        primaryjoin="ProposalDataDeletionRequest.requestedBy == Person.personId",
+        foreign_keys=[requestedBy],
+        back_populates="requestedDataDeletionRequests",
+        lazy="selectin",
+    )
+
+    Proposal = relationship(
+        "Proposal",
+        foreign_keys=[proposalId],
+        back_populates="dataDeletionRequests",
+        lazy="selectin",
     )
 
 
