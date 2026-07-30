@@ -2,6 +2,10 @@
 
 ## Unreleased / main
 
+## v1.3.2 (30/07/2026)
+
+Add PROCESSING status to the `ProposalDataDeletionRequest` model.
+
 ## v1.3.1 (24/07/2026)
 
 Add relationships and improve the `ProposalDataDeletionRequest` model.

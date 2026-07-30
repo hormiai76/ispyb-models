@@ -4202,7 +4202,14 @@ class ProposalDataDeletionRequest(Base):
     retentionDate = Column(Date, nullable=False)
     comments = Column(String(2000))
     status = Column(
-        Enum("REQUESTED", "APPROVED", "REJECTED", "COMPLETED", "CANCELLED"),
+        Enum(
+            "REQUESTED",
+            "APPROVED",
+            "REJECTED",
+            "PROCESSING",
+            "COMPLETED",
+            "CANCELLED",
+        ),
         nullable=False,
         index=True,
         server_default=text("'REQUESTED'"),
