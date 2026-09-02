@@ -2,6 +2,10 @@
 
 ## Unreleased / main
 
+## v1.3.3 (26/08/2026)
+
+New table to manage the data deletion requests and the proposals associated
+
 ## v1.3.2 (30/07/2026)
 
 Add PROCESSING status to the `ProposalDataDeletionRequest` model.

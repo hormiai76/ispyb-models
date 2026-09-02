@@ -17,8 +17,10 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.mysql import (
     BIGINT,
+    ENUM,
     INTEGER,
     LONGBLOB,
+    LONGTEXT,
     MEDIUMINT,
     MEDIUMTEXT,
     SMALLINT,
@@ -30,6 +32,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 from .base import CustomBase
+
 
 Base = declarative_base(cls=CustomBase)
 metadata = Base.metadata
@@ -3173,18 +3176,6 @@ class Person(Base):
     Project = relationship("Project", secondary="Project_has_Person")
     UserGroup = relationship("UserGroup", secondary="UserGroup_has_Person")
 
-    approvedDataDeletionRequests = relationship(
-        "ProposalDataDeletionRequest",
-        foreign_keys="ProposalDataDeletionRequest.approvedBy",
-        back_populates="approvedByPerson",
-    )
-
-    requestedDataDeletionRequests = relationship(
-        "ProposalDataDeletionRequest",
-        foreign_keys="ProposalDataDeletionRequest.requestedBy",
-        back_populates="requestedByPerson",
-    )
-
 
 class PhasingProgramAttachment(Base):
     __tablename__ = "PhasingProgramAttachment"
@@ -3518,6 +3509,41 @@ class BufferHasAdditive(Base):
     MeasurementUnit = relationship("MeasurementUnit")
 
 
+class DataDeletionRequest(Base):
+    __tablename__ = "DataDeletionRequest"
+
+    dataDeletionRequestId = Column(INTEGER(10), primary_key=True)
+    startDate = Column(Date)
+    endDate = Column(Date)
+    comments = Column(String(2000))
+    status = Column(
+        Enum("APPROVED", "COMPLETED", "FAILED", "PROCESSING", "REJECTED", "REQUESTED"),
+        nullable=False,
+        index=True,
+        server_default=text("'REQUESTED'"),
+    )
+    requestedBy = Column(ForeignKey("Person.personId"), nullable=False, index=True)
+    approvedBy = Column(ForeignKey("Person.personId"), index=True)
+    created = Column(
+        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
+    )
+    updated = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+    )
+    approvalDate = Column(TIMESTAMP)
+    completedDate = Column(TIMESTAMP)
+    deletionReport = Column(LONGTEXT)
+
+    Person = relationship(
+        "Person", primaryjoin="DataDeletionRequest.approvedBy == Person.personId"
+    )
+    Person1 = relationship(
+        "Person", primaryjoin="DataDeletionRequest.requestedBy == Person.personId"
+    )
+
+
 class MXMRRun(Base):
     __tablename__ = "MXMRRun"
 
@@ -3808,12 +3834,6 @@ class Proposal(Base):
     state = Column(Enum("Open", "Closed", "Cancelled"), server_default=text("'Open'"))
 
     Person = relationship("Person")
-
-    dataDeletionRequests = relationship(
-        "ProposalDataDeletionRequest",
-        foreign_keys="ProposalDataDeletionRequest.proposalId",
-        back_populates="Proposal",
-    )
 
 
 class StockSolution(Base):
@@ -4192,61 +4212,6 @@ class ProjectHasUser(Base):
     Project = relationship("Project")
 
 
-class ProposalDataDeletionRequest(Base):
-    __tablename__ = "ProposalDataDeletionRequest"
-
-    proposalDataDeletionRequestId = Column(INTEGER(10), primary_key=True)
-    proposalId = Column(ForeignKey("Proposal.proposalId"), nullable=False, index=True)
-    requestedBy = Column(ForeignKey("Person.personId"), nullable=False, index=True)
-    approvedBy = Column(ForeignKey("Person.personId"), nullable=True, index=True)
-    retentionDate = Column(Date, nullable=False)
-    comments = Column(String(2000))
-    status = Column(
-        Enum(
-            "REQUESTED",
-            "APPROVED",
-            "REJECTED",
-            "PROCESSING",
-            "COMPLETED",
-            "CANCELLED",
-        ),
-        nullable=False,
-        index=True,
-        server_default=text("'REQUESTED'"),
-    )
-    created = Column(
-        TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
-    )
-    updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
-    )
-    approvalDate = Column(TIMESTAMP, nullable=True)
-    completedDate = Column(TIMESTAMP, nullable=True)
-
-    approvedByPerson = relationship(
-        "Person",
-        foreign_keys=[approvedBy],
-        back_populates="approvedDataDeletionRequests",
-        lazy="selectin",
-    )
-
-    requestedByPerson = relationship(
-        "Person",
-        foreign_keys=[requestedBy],
-        back_populates="requestedDataDeletionRequests",
-        lazy="selectin",
-    )
-
-    Proposal = relationship(
-        "Proposal",
-        foreign_keys=[proposalId],
-        back_populates="dataDeletionRequests",
-        lazy="selectin",
-    )
-
-
 class ProposalHasPerson(Base):
     __tablename__ = "ProposalHasPerson"
 
@@ -4518,6 +4483,35 @@ class Crystal(Base):
 
     DiffractionPlan = relationship("DiffractionPlan")
     Protein = relationship("Protein")
+
+
+class DataDeletionRequestHasBLSession(Base):
+    __tablename__ = "DataDeletionRequestHasBLSession"
+    __table_args__ = (
+        Index(
+            "DataDeletionRequestHasBLSession_UNIQUE",
+            "sessionId",
+            "dataDeletionRequestId",
+            unique=True,
+        ),
+    )
+
+    dataDeletionRequestHasBLSessionId = Column(INTEGER(10), primary_key=True)
+    dataDeletionRequestId = Column(
+        ForeignKey("DataDeletionRequest.dataDeletionRequestId"),
+        nullable=False,
+        index=True,
+    )
+    sessionId = Column(ForeignKey("BLSession.sessionId"), nullable=False, index=True)
+    deleted = Column(TINYINT(1), nullable=False, server_default=text("0"))
+    lastModified = Column(
+        TIMESTAMP,
+        nullable=False,
+        server_default=text("current_timestamp() ON UPDATE current_timestamp()"),
+    )
+
+    DataDeletionRequest = relationship("DataDeletionRequest")
+    BLSession = relationship("BLSession")
 
 
 class DewarRegistry(Base):
@@ -6402,10 +6396,10 @@ class Image(Base):
 
     imageId = Column(INTEGER(10), primary_key=True)
     dataCollectionId = Column(
-        ForeignKey("DataCollection.dataCollectionId", ondelete="CASCADE"),
         ForeignKey(
             "DataCollection.dataCollectionId", ondelete="CASCADE", onupdate="CASCADE"
         ),
+        ForeignKey("DataCollection.dataCollectionId", ondelete="CASCADE"),
         nullable=False,
         index=True,
         server_default=text("0"),
@@ -6779,7 +6773,7 @@ class SSXProcessingResultAttachment(Base):
     fileName = Column(String(255), nullable=False)
     filePath = Column(String(255), nullable=False)
     fileType = Column(
-        Enum("Real-time processing results", "Processing results"), nullable=False
+        ENUM("Real-time processing results", "Processing results"), nullable=False
     )
     createdTimeStamp = Column(
         TIMESTAMP, nullable=False, server_default=text("current_timestamp()")
